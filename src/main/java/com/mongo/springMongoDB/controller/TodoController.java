@@ -16,11 +16,12 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/todos")
 public class TodoController {
     @Autowired(required = true)
     private TodoService todoService;
 
-    @PostMapping("/todos")
+    @PostMapping
     public ResponseEntity<?> createTodo(@RequestBody TodoDTO todo) {
         try {
             todoService.createTodo(todo);
@@ -32,13 +33,13 @@ public class TodoController {
         }
     }
 
-    @GetMapping("/todos")
+    @GetMapping
     public ResponseEntity<?> getAllTodos() {
         List<TodoDTO> todos = todoService.getAllTodos();
         return new ResponseEntity<>(todos, todos.size() > 0 ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/todos/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getSingleTodo(@PathVariable("id") String id){
         try {
             return new ResponseEntity<>(todoService.getSingleTodo(id), HttpStatus.OK);
@@ -47,7 +48,7 @@ public class TodoController {
         }
     }
 
-    @DeleteMapping("/todos/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable("id") String id) throws TodoCollectionException{
         try{
             todoService.deleteTodoById(id);
@@ -59,7 +60,7 @@ public class TodoController {
         }
     }
 
-    @PutMapping("/todos/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateById(@PathVariable("id") String id, @RequestBody TodoDTO todo)
     {
         try {
